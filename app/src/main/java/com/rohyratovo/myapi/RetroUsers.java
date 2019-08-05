@@ -7,7 +7,8 @@ public class RetroUsers {
 
 //Give the field a custom name//
 //organization_name
-  @SerializedName("position_title")
+
+    @SerializedName("position_title")
     private String position_title;
     @SerializedName("organization_name")
     private String organization_name;
@@ -40,13 +41,10 @@ public class RetroUsers {
     public String getPosition_title() {
         return position_title;
     }
-
     public String getOrganization_name() {
         return  organization_name;
     }
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 
     public String getStart_date() {
        return start_date;

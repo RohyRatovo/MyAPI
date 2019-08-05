@@ -18,7 +18,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
 
     public MyAdapter(List<RetroUsers> dataList, OnItemClickListener listener){
 
-        dataList = dataList;
+        this.dataList = dataList;
         this.listener = listener ;
     }
 
@@ -53,12 +53,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
 
 //Set the data//
 
+
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        holder.textUser.setText(dataList.get(position).getPosition_title());
-
-
-
+        final RetroUsers user = dataList.get(position);
+        holder.textUser.setText(user.getPosition_title());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                listener.onItemClick(user);
+            }
+        });
     }
+
+
+
 
 //Calculate the item count for the RecylerView//
 

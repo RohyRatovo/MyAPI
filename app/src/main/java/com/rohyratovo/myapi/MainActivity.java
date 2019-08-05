@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MyAdapter myAdapter;
     private RecyclerView myRecyclerView;
-    private RetroUsers item;
+    private ProgressBar Pbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 //Create a handler for the RetrofitInstance interface//
 
         GetData service = RetrofitClient.getRetrofitInstance().create(GetData.class);
+        Pbar = findViewById(R.id.progressBar);
+        Pbar.setVisibility(View.VISIBLE);
 
         Call<List<RetroUsers>> call = service.getAllUsers();
 
@@ -41,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onResponse(Call<List<RetroUsers>> call, Response<List<RetroUsers>> response) {
                 loadDataList(response.body());
+                Pbar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -52,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
 //If the request fails, then display the following toast//
 
                 Toast.makeText(MainActivity.this, "Unable to show", Toast.LENGTH_SHORT).show();
+                Pbar.setVisibility(View.GONE);
+
             }
+
         });
     }
 
@@ -75,19 +84,6 @@ public class MainActivity extends AppCompatActivity {
         myRecyclerView.setAdapter(myAdapter);
 
     }
-
-/*public void intentExtra(RetroUsers item){
-    Intent intent = new Intent(getApplicationContext(),RetroUsers.class);
-    intent.putExtra("position title",item.getPosition_title());
-    intent.putExtra("organization name",item.getOrganization_name());
-    intent.putExtra("id",item.getId());
-    intent.putExtra("start date",item.getStart_date());
-    intent.putExtra("end date",item.getEnd_date());
-    intent.putExtra("web page",item.getUrl());
-
-    startActivity(intent);
-
-}*/
 
     private OnItemClickListener getListener() {
         return new OnItemClickListener() {
